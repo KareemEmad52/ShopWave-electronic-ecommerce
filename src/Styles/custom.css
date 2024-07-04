@@ -1,0 +1,15 @@
+.custom-container {
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* Equivalent to px-4 */
+  padding-right: 1rem; /* Equivalent to px-4 */
+  @media (min-width: 640px) {
+    padding-left: 1.5rem; /* Equivalent to sm:px-6 */
+    padding-right: 1.5rem; /* Equivalent to sm:px-6 */
+  }
+  @media (min-width: 1024px) {
+    padding-left: 2rem; /* Equivalent to lg:px-8 */
+    padding-right: 2rem; /* Equivalent to lg:px-8 */
+  }
+}
