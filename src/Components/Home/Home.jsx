@@ -1,6 +1,14 @@
+import { CarouselDefault } from "./CarouselDefault"
+import FeaturedCategory from "./FeaturedCategory"
+import FeaturedProducts from "./FeaturedProducts"
+
 function Home() {
   return (
-    <div>Home</div>
+    <>
+      <CarouselDefault />
+      <FeaturedCategory />
+      <FeaturedProducts />
+    </>
   )
 }
 

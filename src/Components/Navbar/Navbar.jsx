@@ -84,7 +84,7 @@ function Navbar() {
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                {userInfo?.profilePicture.path ? <img
+                {userInfo?.profilePicture?.path ? <img
                   alt="Tailwind CSS Navbar component"
                   src={userInfo?.profilePicture?.path} /> : <img
                   alt="Tailwind CSS Navbar component"
@@ -106,12 +106,12 @@ function Navbar() {
                   <span className="badge">New</span>
                 </a>
               </li>
-              <li><a className="justify-between">
+              <li><Link to='/adminPanel' className="justify-between">
                 <span className='flex gap-1'>
                   <CogIcon className='h-[18px] w-[18px] ' />
                   <span>Admin</span>
                 </span>
-              </a></li>
+              </Link></li>
               <li><button onClick={handleLogout} className="justify-between font-poppins text-alternative-500 font-medium ">
                 <span className='flex gap-1'>
                   <PowerIcon strokeWidth={1} className='h-[18px] w-[18px]' />

@@ -14,6 +14,8 @@ module.exports = withMT({
         poppins: ['Poppins', 'sans-serif'],
       },
       colors: {
+        'custom-dark': '#1f2937', // Example custom dark color
+        'custom-darker': '#111827', // Example custom darker color
         main: {
           100 :"#CDF3EB",
           200: "#9AE7D8",

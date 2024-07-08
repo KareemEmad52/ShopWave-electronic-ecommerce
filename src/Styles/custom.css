@@ -1,5 +1,5 @@
 .custom-container {
-  max-width: 1140px;
+  max-width: 1320px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem; /* Equivalent to px-4 */
@@ -12,4 +12,40 @@
     padding-left: 2rem; /* Equivalent to lg:px-8 */
     padding-right: 2rem; /* Equivalent to lg:px-8 */
   }
+}
+
+.main{
+  color: #03C39D;
+}
+
+
+.slick-dots.custom-dots {
+  bottom: 5px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-dots.custom-dots li {
+  margin: 0 5px;
+}
+
+.slick-dots.custom-dots li button:before {
+  font-size: 0;
+}
+
+.slick-dots.custom-dots li button {
+  width: 5px;
+  height: 5px;
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.slick-dots.custom-dots li.slick-active button {
+  background-color: white;
+}
+
+
+.transtionAll{
+  transition: all 0.5s;
 }

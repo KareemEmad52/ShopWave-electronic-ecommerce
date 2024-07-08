@@ -1,0 +1,160 @@
+import React, { useEffect, useState } from 'react'
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
+import {
+  Card,
+  CardHeader,
+  Input,
+  Typography,
+  Button,
+  CardBody,
+  CardFooter,
+} from "@material-tailwind/react";
+import Table from '../Table/Table';
+import { deleteProduct, getAllProduct } from '../../utils/api';
+import AddProductModal from './AddProductModal';
+import { useUser } from '../../context/UserContext';
+import { toast } from 'react-toastify';
+const productHeaders = ["Title", "Category", 'Brand', "Price", "Stock", "Added"];
+const productRows1 = [
+  {
+    img: "https://res.cloudinary.com/dnsvisuww/image/upload/v1709378731/wkhvbktzebv8qnjq3baw.jpg",
+    product: "Product 1",
+    category: "Category 1",
+    brand: "LG",
+    price: "$10.00",
+    stock: "In Stock",
+    added: "01/01/2022",
+
+  },
+  // Add more product rows as needed
+];
+
+function ProductTable() {
+
+  const [productRows, setProductRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {token} = useUser()
+  
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+
+  const HandlegetProductDetails = async () => {
+    try {
+      const res = await getAllProduct()
+      const transformedData = transformData(res.data);
+      setProductRows(transformedData);
+      setIsLoading(false)
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false)
+    }
+  }
+
+  const HandleDeleteProduct = async (id) => {
+    const toastId = toast.loading("Deleting Product...");
+    try {
+      const res = await deleteProduct(id,token)
+      await HandlegetProductDetails()
+      console.log(res);
+      toast.update(toastId, {
+        render: "Product Deleted successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        render: "Please try again ",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000
+      });
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    HandlegetProductDetails()
+  }, []);
+
+
+  // Function to transform API response
+  const transformData = (data) => {
+    return data.document.map((item) => ({
+      title: item.title.split(" ").slice(0, 3).join(" "),
+      category: item.category?.name,
+      brand: item.brand?.name,
+      price: `$${item.price}`,
+      stock: item.stock > 0 ? "In Stock" : "Out of Stock",
+      added: new Date(item.createdAt).toLocaleDateString(),
+      img: item.imgCover.path,
+      _id: item._id
+    }));
+  };
+
+  return (
+    <Card className="h-full w-full">
+      <AddProductModal isOpen={isModalOpen} closeModal={closeModal} displayProduct={HandlegetProductDetails} />
+      <CardHeader floated={false} shadow={false} className="rounded-none">
+        <div className="mb-8 flex items-center justify-between gap-8">
+          <div>
+            <Typography variant="h5" color="blue-gray">
+              Products
+            </Typography>
+            <Typography color="gray" className="mt-1 font-normal">
+              List of all products
+            </Typography>
+          </div>
+          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+            <Button variant="outlined" size="sm">
+              view all
+            </Button>
+            <Button onClick={openModal} className="flex items-center gap-3" size="sm">
+              <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add product
+            </Button>
+          </div>
+        </div>
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="w-full md:w-72">
+            <Input
+              label="Search"
+              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+            />
+          </div>
+        </div>
+      </CardHeader>
+      <CardBody className="overflow-scroll px-0">
+        {isLoading ? <div className="text-center text-blue-gray-500 p-4">
+          No data available
+        </div> : <Table headers={productHeaders} rows={productRows} deleteFn={HandleDeleteProduct} />}
+      </CardBody>
+      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+        <Typography variant="small" color="blue-gray" className="font-normal">
+          Page 1 of 10
+        </Typography>
+        <div className="flex gap-2">
+          <Button variant="outlined" size="sm">
+            Previous
+          </Button>
+          <Button variant="outlined" size="sm">
+            Next
+          </Button>
+        </div>
+      </CardFooter>
+    </Card>
+
+  )
+}
+
+export default ProductTable

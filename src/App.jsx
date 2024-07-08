@@ -7,6 +7,13 @@ import Home from './Components/Home/Home'
 import { Signup } from './Components/Signup/Signup'
 import { Login } from './Components/Login/Login';
 import { UserProvider } from './context/UserContext';
+import AdminPanel from './Components/AdminPanel/AdminPanel';
+import ProductTable from './Components/ProductTable/ProductTable';
+import CategoryTable from './Components/CategoryTable/CategoryTable';
+import BrandTable from './Components/BrandTabel/BrandTable';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 const routes = createBrowserRouter([
   {
@@ -14,6 +21,13 @@ const routes = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
+      {
+        path: 'adminPanel', element: <AdminPanel />, children: [
+          { path: 'productPanel', element: <ProductTable /> },
+          { path: 'categoryPanel', element: <CategoryTable /> },
+          { path: 'brandPanel', element: <BrandTable /> },
+        ]
+      },
     ]
   }
 ])
