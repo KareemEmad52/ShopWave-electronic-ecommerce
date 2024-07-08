@@ -32,7 +32,9 @@ export const LoginUser = async (values) => {
 // Get All Product Function
 export const getAllProduct = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/product`);
+    const response = await axios.get(`${BASE_URL}/api/v1/product`,{ params: {
+      page: 1
+    }});
     return response;
   } catch (error) {
     throw error;

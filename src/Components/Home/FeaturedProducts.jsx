@@ -5,6 +5,8 @@ import { getAllProduct } from '../../utils/api';
 import {
   Button,
 } from "@material-tailwind/react";
+import { Puff } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
 
 function FeaturedProducts() {
   const { data, error, isLoading, isError } = useQuery({
@@ -12,20 +14,29 @@ function FeaturedProducts() {
     queryFn: getAllProduct,
   });
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   if (isError) {
+    toast.error("An error occur please refresh the page !")
     return <div>Error: {error.message}</div>;
   }
 
   return (
     <div className="container mx-auto font-poppins">
       <span className='block text-alternative-500 font-poppins text-[9px] md:text-[12px] font-medium mt-5 mb-2 ps-3'>Products</span>
-      <h2 className='font-poppins text-sm font-semibold mb-1 ps-3 text-[16px] md:text-[27px]'>Featured Products : </h2>
+      <h2 className='font-poppins  font-semibold mb-1 ps-3 text-[22px] md:text-[27px]'>Featured Products : </h2>
 
-      <div className="gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
+      {isLoading ? <div className='h-[20vh] w-100 flex justify-center items-center'>
+        <Puff
+          height="60"
+          width="60"
+          radius={1.5}
+          color="#4fa94d"
+          ariaLabel="puff-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div> : <div className="gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
         {data?.data?.document.map((product) => (
           <div key={product._id} className=" shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0">
             <figure className="relative">
@@ -58,7 +69,7 @@ function FeaturedProducts() {
             </div>
           </div>
         ))}
-      </div>
+      </div>}
     </div>
   );
 }
