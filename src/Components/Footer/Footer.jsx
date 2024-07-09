@@ -5,7 +5,7 @@ function Footer() {
     <footer className="p-10 font-[sans-serif] tracking-wide">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <div className="lg:flex lg:items-center">
-          <a href="javascript:void(0)">
+          <a href="#" onClick={(e) => e.preventDefault()}>
             <h1 className='w-52 font-poppins text-main-500 font-semibold text-[50px]'>ShopWave</h1>
           </a>
         </div>
@@ -13,7 +13,7 @@ function Footer() {
         <div className="lg:flex lg:items-center">
           <ul className="flex space-x-6">
             <li>
-              <a href="javascript:void(0)">
+              <a href="#" onClick={(e) => e.preventDefault()}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="fill-gray-600 hover:fill-gray-800 w-7 h-7" viewBox="0 0 24 24">
                   <path fillRule="evenodd"
                     d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7v-7h-2v-3h2V8.5A3.5 3.5 0 0 1 15.5 5H18v3h-2a1 1 0 0 0-1 1v2h3v3h-3v7h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"
@@ -22,7 +22,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <a href="#" onClick={(e) => e.preventDefault()}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="fill-gray-600 hover:fill-gray-800 w-7 h-7" viewBox="0 0 24 24">
                   <path fillRule="evenodd"
                     d="M21 5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5zm-2.5 8.2v5.3h-2.79v-4.93a1.4 1.4 0 0 0-1.4-1.4c-.77 0-1.39.63-1.39 1.4v4.93h-2.79v-8.37h2.79v1.11c.48-.78 1.47-1.3 2.32-1.3 1.8 0 3.26 1.46 3.26 3.26zM6.88 8.56a1.686 1.686 0 0 0 0-3.37 1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68zm1.39 1.57v8.37H5.5v-8.37h2.77z"
@@ -31,7 +31,7 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a href="javascript:void(0)">
+              <a href="#" onClick={(e) => e.preventDefault()}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" className="fill-gray-600 hover:fill-gray-800 w-7 h-7"
                   viewBox="0 0 24 24">
                   <path
@@ -46,13 +46,13 @@ function Footer() {
           <h4 className="text-lg font-semibold mb-6 text-gray-800">Contact Us</h4>
           <ul className="space-y-4">
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">Email</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">Email</a>
             </li>
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">Phone</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">Phone</a>
             </li>
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">Address</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">Address</a>
             </li>
           </ul>
         </div>
@@ -61,13 +61,13 @@ function Footer() {
           <h4 className="text-lg font-semibold mb-6 text-gray-800">Information</h4>
           <ul className="space-y-4">
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">About Us</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">About Us</a>
             </li>
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">Terms &amp; Conditions</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">Terms &amp; Conditions</a>
             </li>
             <li>
-              <a href="javascript:void(0)" className="text-gray-600 hover:text-gray-800 text-sm">Privacy Policy</a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-600 hover:text-gray-800 text-sm">Privacy Policy</a>
             </li>
           </ul>
         </div>

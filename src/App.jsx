@@ -13,6 +13,7 @@ import CategoryTable from './Components/CategoryTable/CategoryTable';
 import BrandTable from './Components/BrandTabel/BrandTable';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ProductDetials from './Components/ProductDetails/ProductDetials';
 
 
 const routes = createBrowserRouter([
@@ -21,6 +22,7 @@ const routes = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
+      { path: 'productDetails/:id', element: <ProductDetials /> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
           { path: 'productPanel', element: <ProductTable /> },

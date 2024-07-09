@@ -49,3 +49,7 @@
 .transtionAll{
   transition: all 0.5s;
 }
+
+.slick-next:before, .slick-prev:before{
+  color: black !important;
+}

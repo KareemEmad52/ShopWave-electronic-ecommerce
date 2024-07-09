@@ -163,3 +163,14 @@ export const deleteBrand = async (id ,token) => {
     throw error;
   }
 };
+
+
+// Get Product By ID 
+export const getSingleProductByID = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/product/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

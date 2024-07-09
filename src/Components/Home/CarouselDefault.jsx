@@ -12,12 +12,20 @@ export function CarouselDefault() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay:true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4000,
     customPaging: (i) => (
       <div className="w-2 h-2 bg-gray-700 rounded-full"></div>
     ),
     dotsClass: "slick-dots custom-dots",
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 680,
+        settings: {
+          dots: false,
+        }
+      }
+    ],
   };
 
   return (

@@ -50,7 +50,9 @@ const Categories = () => {
         settings: {
           infinite: true,
           slidesToShow: 3,
-          slidesToScroll: 1
+          slidesToScroll: 1,
+          dots: false,
+          autoplaySpeed: 2000,
         }
       }
     ],
@@ -79,7 +81,7 @@ const Categories = () => {
               <div className='p-2 cursor-pointer  border border-transparent hover:border-1 hover:border-main-500 transtionAll rounded-lg'>
                 <img className="w-full h-full object-cover" src={category.image.path} alt={category.name} />
                 <div className="pt-4">
-                  <div className="font-bold text-[8px] sm:text-[10px] md:text-sm mb-2">{category.name}</div>
+                  <div className="font-bold text-[12px] sm:text-[10px] md:text-sm mb-2">{category.name}</div>
                 </div>
               </div>
             </div>
