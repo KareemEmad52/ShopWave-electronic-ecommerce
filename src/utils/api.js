@@ -32,9 +32,11 @@ export const LoginUser = async (values) => {
 // Get All Product Function
 export const getAllProduct = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/product`,{ params: {
-      page: 1
-    }});
+    const response = await axios.get(`${BASE_URL}/api/v1/product`, {
+      params: {
+        page: 1
+      }
+    });
     return response;
   } catch (error) {
     throw error;
@@ -43,7 +45,7 @@ export const getAllProduct = async () => {
 
 
 // Add Product 
-export const addProduct = async (productData ,token) => {
+export const addProduct = async (productData, token) => {
 
   try {
     const response = await axios.post(`${BASE_URL}/api/v1/product`, productData, {
@@ -86,7 +88,7 @@ export const getBrands = async () => {
 
 
 // Delete Product 
-export const deleteProduct = async (id ,token) => {
+export const deleteProduct = async (id, token) => {
   try {
     const response = await axios.delete(`${BASE_URL}/api/v1/product/${id}`, {
       headers: {
@@ -102,7 +104,7 @@ export const deleteProduct = async (id ,token) => {
 
 
 // Add Category 
-export const addCategory = async (CategoryData ,token) => {
+export const addCategory = async (CategoryData, token) => {
 
   try {
     const response = await axios.post(`${BASE_URL}/api/v1/categories`, CategoryData, {
@@ -118,7 +120,7 @@ export const addCategory = async (CategoryData ,token) => {
 };
 
 // Delete Category 
-export const deleteCategory = async (id ,token) => {
+export const deleteCategory = async (id, token) => {
   try {
     const response = await axios.delete(`${BASE_URL}/api/v1/categories/${id}`, {
       headers: {
@@ -134,7 +136,7 @@ export const deleteCategory = async (id ,token) => {
 
 
 // Add Brand 
-export const addBrand = async (BrandData ,token) => {
+export const addBrand = async (BrandData, token) => {
 
   try {
     const response = await axios.post(`${BASE_URL}/api/v1/brands`, BrandData, {
@@ -150,7 +152,7 @@ export const addBrand = async (BrandData ,token) => {
 };
 
 // Delete Brand 
-export const deleteBrand = async (id ,token) => {
+export const deleteBrand = async (id, token) => {
   try {
     const response = await axios.delete(`${BASE_URL}/api/v1/brands/${id}`, {
       headers: {
@@ -171,6 +173,22 @@ export const getSingleProductByID = async (id) => {
     const response = await axios.get(`${BASE_URL}/api/v1/product/${id}`);
     return response;
   } catch (error) {
+    throw error;
+  }
+};
+
+
+// Add To Cart
+export const AddToCart = async (productID, token) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/api/v1/cart/add`, { product_id: productID }, {
+      headers: {
+        'token': `${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error('Error adding product:', error);
     throw error;
   }
 };
