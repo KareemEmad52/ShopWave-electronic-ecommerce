@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -15,7 +15,8 @@ import {  deleteBrand, getBrands } from '../../utils/api';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
 import AddBrandModal from './AddBrandModal';
-
+import _ from 'lodash';
+import { Puff } from 'react-loader-spinner';
 
 
 const BrandsHeaders = ["Title", "Added"];
@@ -26,6 +27,8 @@ function BrandTable() {
   const [brandsRows, setBrandsRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery,setSearchQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1);
   const { token } = useUser()
 
 
@@ -39,9 +42,9 @@ function BrandTable() {
 
 
 
-  const HandlegetBrandDetails = async () => {
+  const HandlegetBrandDetails = async (page = 1, keyword = '') => {
     try {
-      const res = await getBrands()
+      const res = await getBrands({ page, keyword })
       const transformedData = transformData(res.document);
       setBrandsRows(transformedData);
       setIsLoading(false)
@@ -73,10 +76,35 @@ function BrandTable() {
     }
   }
 
+
+  const debouncedSearch = useCallback(
+    _.debounce((query) => {
+      setSearchQuery(query);
+      setCurrentPage(1); // Reset to the first page on a new search
+    }, 500),
+    [] // Ensures the debounce function is not recreated on every render
+  );
+
+  const handleSearchChange = (e) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
+  // const filterBrandRows = 
+
   useEffect(() => {
     setIsLoading(true)
-    HandlegetBrandDetails()
-  }, []);
+    HandlegetBrandDetails(currentPage, searchQuery)
+  }, [currentPage, searchQuery]);
 
 
   // Function to transform API response
@@ -116,13 +144,23 @@ function BrandTable() {
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
-        {isLoading ? <div className="text-center text-blue-gray-500 p-4">
-          No data available
+        {isLoading ? <div className="text-center text-blue-gray-500 p-4 flex justify-center items-center">
+          <Puff
+            height="60"
+            width="60"
+            radius={0.8}
+            color="#4fa94d"
+            ariaLabel="puff-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
         </div> : <Table headers={BrandsHeaders} rows={brandsRows} deleteFn={HandleDeleteBrand} />}
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
@@ -130,10 +168,10 @@ function BrandTable() {
           Page 1 of 10
         </Typography>
         <div className="flex gap-2">
-          <Button variant="outlined" size="sm">
+          <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
             Previous
           </Button>
-          <Button variant="outlined" size="sm">
+          <Button variant="outlined" size="sm" onClick={handleNextPage}>
             Next
           </Button>
         </div>

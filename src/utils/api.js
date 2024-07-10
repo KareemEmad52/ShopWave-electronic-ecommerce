@@ -30,19 +30,19 @@ export const LoginUser = async (values) => {
 
 
 // Get All Product Function
-export const getAllProduct = async () => {
+export const getAllProduct = async ({ page = 1, keyword = '' }) => {
   try {
     const response = await axios.get(`${BASE_URL}/api/v1/product`, {
       params: {
-        page: 1
-      }
+        page: page,
+        keyword: keyword,
+      },
     });
     return response;
   } catch (error) {
     throw error;
   }
 };
-
 
 // Add Product 
 export const addProduct = async (productData, token) => {
@@ -61,10 +61,15 @@ export const addProduct = async (productData, token) => {
 };
 
 // Get All Categories 
-export const getCategories = async () => {
+export const getCategories = async ({ page = 1, keyword = '' }) => {
 
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/categories`);
+    const response = await axios.get(`${BASE_URL}/api/v1/categories`,{
+      params: {
+        page: page,
+        keyword: keyword,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error getting all categories:', error);
@@ -74,10 +79,15 @@ export const getCategories = async () => {
 
 
 // Get All Brands 
-export const getBrands = async () => {
+export const getBrands = async ({ page = 1, keyword = '' }) => {
 
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/brands`);
+    const response = await axios.get(`${BASE_URL}/api/v1/brands`,{
+      params: {
+        page: page,
+        keyword: keyword,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Error getting all categories:', error);

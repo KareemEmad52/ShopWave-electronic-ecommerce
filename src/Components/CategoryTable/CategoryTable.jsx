@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import {
@@ -15,6 +15,8 @@ import { deleteCategory, deleteProduct, getCategories } from '../../utils/api';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
 import AddCategoryModal from './AddCategoryModal';
+import { Puff } from 'react-loader-spinner';
+import _ from 'lodash';
 
 
 
@@ -26,6 +28,8 @@ function CategoryTable() {
   const [categoryRows, setCategoryRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1);
   const { token } = useUser()
 
 
@@ -39,9 +43,9 @@ function CategoryTable() {
 
 
 
-  const HandlegetCategoryDetails = async () => {
+  const HandlegetCategoryDetails = async (page = 1, keyword = '') => {
     try {
-      const res = await getCategories()
+      const res = await getCategories({ page, keyword })
       const transformedData = transformData(res.document);
       setCategoryRows(transformedData);
       setIsLoading(false)
@@ -55,7 +59,7 @@ function CategoryTable() {
     const toastId = toast.loading("Deleting Category...");
     try {
       const res = await deleteCategory(id, token)
-      await HandlegetCategoryDetails()
+      await HandlegetCategoryDetails(currentPage, searchQuery)
       toast.update(toastId, {
         render: "Category Deleted successfully!",
         type: "success",
@@ -73,10 +77,32 @@ function CategoryTable() {
     }
   }
 
+  const debouncedSearch = useCallback(
+    _.debounce((query) => {
+      setSearchQuery(query);
+      setCurrentPage(1); // Reset to the first page on a new search
+    }, 500),
+    [] // Ensures the debounce function is not recreated on every render
+  );
+
+  const handleSearchChange = (e) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
   useEffect(() => {
     setIsLoading(true)
-    HandlegetCategoryDetails()
-  }, []);
+    HandlegetCategoryDetails(currentPage, searchQuery)
+  }, [currentPage, searchQuery]);
 
 
   // Function to transform API response
@@ -116,13 +142,23 @@ function CategoryTable() {
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              onChange={handleSearchChange}
             />
           </div>
         </div>
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
-        {isLoading ? <div className="text-center text-blue-gray-500 p-4">
-          No data available
+        {isLoading ? <div className="text-center text-blue-gray-500 p-4 flex justify-center items-center">
+          <Puff
+            height="60"
+            width="60"
+            radius={0.8}
+            color="#4fa94d"
+            ariaLabel="puff-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
         </div> : <Table headers={CategoryHeaders} rows={categoryRows} deleteFn={HandleDeleteCategory} />}
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
@@ -130,10 +166,10 @@ function CategoryTable() {
           Page 1 of 10
         </Typography>
         <div className="flex gap-2">
-          <Button variant="outlined" size="sm">
+          <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
             Previous
           </Button>
-          <Button variant="outlined" size="sm">
+          <Button variant="outlined" size="sm" onClick={handleNextPage}>
             Next
           </Button>
         </div>
