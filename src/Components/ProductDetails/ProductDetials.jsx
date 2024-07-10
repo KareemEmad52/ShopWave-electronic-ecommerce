@@ -36,7 +36,11 @@ function ProductDetails() {
       setIsLoadingCart(false)
       toast.success("Product Add Successfully")
     } catch (error) {
-      console.log(error);
+      if(error.response.data.message === "Forbidden"){
+        toast.error("Please Login First !")
+      } else {
+        toast.error("An error occurred while adding the product to the cart");
+      }
       setIsLoadingCart(false)
     }
   }

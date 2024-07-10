@@ -76,7 +76,7 @@ function ProductTable() {
       });
     } catch (error) {
       toast.update(toastId, {
-        render: "Please try again",
+        render: error.response.data.message,
         type: "error",
         isLoading: false,
         autoClose: 3000,

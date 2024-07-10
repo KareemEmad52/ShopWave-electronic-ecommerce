@@ -5,7 +5,7 @@ import { Puff } from 'react-loader-spinner';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import { getAllProduct } from '../../utils/api';
+import { AddToCart, getAllProduct } from '../../utils/api';
 import _ from 'lodash';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
@@ -38,15 +38,19 @@ function Products() {
   const handleAddProductToCart = async (id) => {
     setLoadingProductId(id);
     try {
-      // Simulated function, replace with actual addToCart function
+      await AddToCart(id, token);
       setLoadingProductId(null);
-      toast.success('Product added successfully');
+      toast.success("Product added successfully");
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      if (error.response.data.message === "Forbidden") {
+        toast.error("Please Login First !")
+      } else {
+        toast.error("An error occurred while adding the product to the cart");
+      }
       setLoadingProductId(null);
-      toast.error('An error occurred while adding the product to the cart');
     }
-  };
+  }
 
   const debouncedSearch = useCallback(
     _.debounce((query) => {
@@ -77,24 +81,28 @@ function Products() {
   return (
     <>
       <div className='w-full'>
-        <div className='w-full my-3 flex justify-center items-center '>
-          <div className='w-[80%] md:w-[70%]'>
-            <Input
-              variant='outlined'
-              label='Search'
-              placeholder="Search by product's name"
-              onChange={handleSearchChange}
-            />
-          </div>
-        </div>
+
 
         <div className='container mx-auto font-poppins'>
-          <span className='block text-alternative-500 font-poppins text-[9px] md:text-[12px] font-medium mt-5 mb-2 ps-3'>
-            Products
-          </span>
-          <h2 className='font-poppins  font-semibold mb-1 ps-3 text-[22px] md:text-[27px]'>
-            Featured Products :{' '}
-          </h2>
+          <div>
+            <span className='block text-alternative-500 font-poppins text-[9px] md:text-[12px] font-medium mt-5 mb-2 ps-3'>
+              Products
+            </span>
+            <h2 className='font-poppins  font-semibold mb-1 ps-3 text-[22px] md:text-[27px]'>
+              Explore All Products :{' '}
+            </h2>
+          </div>
+
+          <div className='w-full mt-5 md:my-5 flex justify-center items-center '>
+            <div className='w-[80%] md:w-[70%]'>
+              <Input
+                variant='outlined'
+                label='Search'
+                placeholder="Search by product's name"
+                onChange={handleSearchChange}
+              />
+            </div>
+          </div>
 
           {isLoading ? (
             <div className='h-[20vh] w-100 flex justify-center items-center'>
@@ -165,28 +173,29 @@ function Products() {
         </div>
 
         <div className='w-100 md:my-8 flex justify-center items-center'>
-        {isLoading ? " " : <div className='flex items-center gap-8 mt-4'>
-          <IconButton
-            size='sm'
-            variant='outlined'
-            onClick={prev}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeftIcon strokeWidth={2} className='h-4 w-4' />
-          </IconButton>
-          <Typography color='gray' className='font-normal'>
-            Page <strong className='text-gray-900'>{currentPage}</strong> of{' '}
-            <strong className='text-gray-900'>{products.totalPages}</strong>
-          </Typography>
-          <IconButton
-            size='sm'
-            variant='outlined'
-            onClick={next}
-            disabled={currentPage === products.totalPages}
-          >
-            <ArrowRightIcon strokeWidth={2} className='h-4 w-4' />
-          </IconButton>
-        </div> }
+
+          <div className='flex items-center gap-8 mt-4'>
+            <IconButton
+              size='sm'
+              variant='outlined'
+              onClick={prev}
+              disabled={currentPage === 1}
+            >
+              <ArrowLeftIcon strokeWidth={2} className='h-4 w-4' />
+            </IconButton>
+            <Typography color='gray' className='font-normal'>
+              Page <strong className='text-gray-900'>{currentPage}</strong> of{' '}
+              <strong className='text-gray-900'>{products.totalPages}</strong>
+            </Typography>
+            <IconButton
+              size='sm'
+              variant='outlined'
+              onClick={next}
+              disabled={currentPage === products.totalPages}
+            >
+              <ArrowRightIcon strokeWidth={2} className='h-4 w-4' />
+            </IconButton>
+          </div>
         </div>
       </div>
     </>

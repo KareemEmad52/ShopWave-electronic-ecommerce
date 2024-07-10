@@ -36,13 +36,13 @@ export function Sidebar() {
         </Typography>
       </div>
       <List>
-      <ListItem>
+      <ListItem onClick={() => handleNavigate("/")}>
           <ListItemPrefix>
             <HomeIcon className="h-5 w-5" />
           </ListItemPrefix>
           Home
         </ListItem>
-        <ListItem onClick={() => handleNavigate("/adminPanel/productPanel")}>
+        <ListItem onClick={() => handleNavigate("/adminPanel")}>
           <ListItemPrefix>
             <PresentationChartBarIcon className="h-5 w-5" />
           </ListItemPrefix>

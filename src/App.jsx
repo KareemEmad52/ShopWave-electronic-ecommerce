@@ -15,6 +15,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ProductDetials from './Components/ProductDetails/ProductDetials';
 import Products from './Components/Products/Products';
+import ProtectedRoute from './Components/ProtectedRoutes/ProtectedRoutes';
 
 
 const routes = createBrowserRouter([
@@ -24,10 +25,10 @@ const routes = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
       { path: 'productDetails/:id', element: <ProductDetials /> },
-      { path: 'products', element: <Products /> },
+      { path: 'products', element: <ProtectedRoute><Products /></ProtectedRoute> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
-          { path: 'productPanel', element: <ProductTable /> },
+          { index: true, element: <ProductTable /> },
           { path: 'categoryPanel', element: <CategoryTable /> },
           { path: 'brandPanel', element: <BrandTable /> },
         ]

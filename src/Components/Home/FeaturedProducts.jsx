@@ -32,14 +32,18 @@ function FeaturedProducts() {
       setLoadingProductId(null);
       toast.success("Product added successfully");
     } catch (error) {
-      console.error(error);
+      if(error.response.data.message === "Forbidden"){
+        toast.error("Please Login First !")
+      } else {
+        toast.error("An error occurred while adding the product to the cart");
+      }
       setLoadingProductId(null);
-      toast.error("An error occurred while adding the product to the cart");
     }
   }
 
 
   if (isError) {
+    console.log(error);
     toast.error("An error occur please refresh the page !")
     return <div>Error: {error.message}</div>;
   }
