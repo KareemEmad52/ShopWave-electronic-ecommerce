@@ -202,3 +202,25 @@ export const AddToCart = async (productID, token) => {
     throw error;
   }
 };
+
+// Get Category By ID 
+export const getSingleCategoryByID = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/categories/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+
+export const getSingleBrandByID = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/brands/${id}`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

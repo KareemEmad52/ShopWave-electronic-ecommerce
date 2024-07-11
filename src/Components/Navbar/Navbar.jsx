@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 import { useUser } from '../../context/UserContext';
 import {
@@ -19,12 +19,14 @@ import {
 
 function Navbar() {
 
-  const { token ,setToken} = useUser();
+  const { token, setToken } = useUser();
   const [userInfo, setUserInfo] = useState(null);
+  let navigate = useNavigate()
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     localStorage.removeItem('token')
-      setToken(null)
+    setToken(null)
+    navigate('/')
   }
 
   useEffect(() => {
@@ -60,9 +62,9 @@ function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
             <li><Link to="/products">Products</Link></li>
-            <li><a>Category</a></li>
+            <li><Link to="/categories">Category</Link></li>
             <li>
-              <a>Brands</a>
+              <Link to='/brands'>Brands</Link>
             </li>
             <li><a>Wichlist</a></li>
           </ul>
@@ -72,9 +74,9 @@ function Navbar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li><Link to="/products">Products</Link></li>
-          <li><a>Category</a></li>
+          <li><Link to="/categories">Category</Link></li>
           <li>
-            <a>Brands</a>
+            <Link to='/brands'>Brands</Link>
           </li>
           <li><a>Wichlist</a></li>
         </ul>
