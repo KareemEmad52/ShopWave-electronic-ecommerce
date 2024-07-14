@@ -20,6 +20,8 @@ import Categories from './Components/Categories/Categories';
 import Brands from './Components/Brands/Brands';
 import CategoriesDetails from './Components/Categories/CategoriesDetails';
 import BrandsDetails from './Components/Brands/BrandsDetails';
+import Cart from './Components/Cart/Cart';
+import { CartProvider } from './context/CartContext';
 
 
 const routes = createBrowserRouter([
@@ -30,10 +32,11 @@ const routes = createBrowserRouter([
       { path: 'signup', element: <Signup /> },
       { path: 'productDetails/:id', element: <ProductDetials /> },
       { path: 'products', element: <ProtectedRoute><Products /></ProtectedRoute> },
-      { path: 'categories', element: <ProtectedRoute><Categories /></ProtectedRoute>},
+      { path: 'categories', element: <ProtectedRoute><Categories /></ProtectedRoute> },
       { path: 'brands', element: <ProtectedRoute><Brands /></ProtectedRoute> },
-      { path: 'categories/categoryDetails/:id', element: <CategoriesDetails /> },
-      { path: 'brands/brandDetails/:id', element: <BrandsDetails /> },
+      { path: 'categories/categoryDetails/:id', element: <ProtectedRoute><CategoriesDetails /></ProtectedRoute> },
+      { path: 'brands/brandDetails/:id', element: <ProtectedRoute><BrandsDetails /></ProtectedRoute> },
+      { path: 'cart', element: <ProtectedRoute><Cart /></ProtectedRoute> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
           { index: true, element: <ProductTable /> },
@@ -49,10 +52,12 @@ function App() {
   return (
 
     <>
+    <CartProvider>
       <UserProvider>
         <RouterProvider router={routes} />
         <ToastContainer />
       </UserProvider>
+      </CartProvider>
     </>
   )
 }

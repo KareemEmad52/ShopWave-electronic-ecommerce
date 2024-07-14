@@ -9,13 +9,13 @@ import {
   Button,
   CardBody,
   CardFooter,
+  Spinner,
 } from "@material-tailwind/react";
 import Table from '../Table/Table';
 import { deleteCategory, deleteProduct, getCategories } from '../../utils/api';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
 import AddCategoryModal from './AddCategoryModal';
-import { Puff } from 'react-loader-spinner';
 import _ from 'lodash';
 
 
@@ -149,16 +149,7 @@ function CategoryTable() {
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
         {isLoading ? <div className="text-center text-blue-gray-500 p-4 flex justify-center items-center">
-          <Puff
-            height="60"
-            width="60"
-            radius={0.8}
-            color="#4fa94d"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+          <Spinner color="green" className="h-10 w-10" />
         </div> : <Table headers={CategoryHeaders} rows={categoryRows} deleteFn={HandleDeleteCategory} />}
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">

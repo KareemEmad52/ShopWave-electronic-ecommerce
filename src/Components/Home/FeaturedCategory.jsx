@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getCategories } from '../../utils/api'; // Assuming this function fetches categories
-import { Puff } from 'react-loader-spinner';
+import { Spinner } from '@material-tailwind/react';
 
 const Categories = () => {
   const { data, error, isLoading, isError } = useQuery({
@@ -64,16 +64,7 @@ const Categories = () => {
       <span className='block text-alternative-500 font-poppins text-[9px] md:text-[12px] font-medium mt-5 mb-2 ps-3'>Category</span>
       <h2 className='font-poppins text-sm font-semibold mb-1 ps-3 text-[16px] md:text-[27px]'>Featured Category : </h2>
       {isLoading ? <div className='h-[20vh] w-100 flex justify-center items-center'>
-        <Puff
-          height="60"
-          width="60"
-          radius={1.5}
-          color="#4fa94d"
-          ariaLabel="puff-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
+        <Spinner color="green" className="h-10 w-10" />
       </div> : <div className="slider-container ">
         <Slider {...settings} className="h-full">
           {data?.document?.map((category) => (

@@ -63,8 +63,8 @@ const AddProductModal = ({ isOpen, closeModal, displayProduct }) => {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const categoryResponse = await getCategories(); // Adjust the URL
-        const brandResponse = await getBrands(); // Adjust the URL
+        const categoryResponse = await getCategories({page : 1, keyword : ''}); // Adjust the URL
+        const brandResponse = await getBrands({page : 1, keyword : ''}); // Adjust the URL
         setCategories(categoryResponse.document);
         setBrands(brandResponse.document);
       } catch (error) {

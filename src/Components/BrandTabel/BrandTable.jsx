@@ -9,6 +9,7 @@ import {
   Button,
   CardBody,
   CardFooter,
+  Spinner,
 } from "@material-tailwind/react";
 import Table from '../Table/Table';
 import {  deleteBrand, getBrands } from '../../utils/api';
@@ -16,7 +17,6 @@ import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
 import AddBrandModal from './AddBrandModal';
 import _ from 'lodash';
-import { Puff } from 'react-loader-spinner';
 
 
 const BrandsHeaders = ["Title", "Added"];
@@ -151,16 +151,7 @@ function BrandTable() {
       </CardHeader>
       <CardBody className="overflow-scroll px-0">
         {isLoading ? <div className="text-center text-blue-gray-500 p-4 flex justify-center items-center">
-          <Puff
-            height="60"
-            width="60"
-            radius={0.8}
-            color="#4fa94d"
-            ariaLabel="puff-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-          />
+          <Spinner color="green" className="h-10 w-10" />
         </div> : <Table headers={BrandsHeaders} rows={brandsRows} deleteFn={HandleDeleteBrand} />}
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">

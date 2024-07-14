@@ -16,10 +16,12 @@ import {
   Bars2Icon,
   CogIcon
 } from "@heroicons/react/24/solid";
+import { useCart } from '../../context/CartContext';
 
 function Navbar() {
 
   const { token, setToken } = useUser();
+  const {cartItems} = useCart()
   const [userInfo, setUserInfo] = useState(null);
   let navigate = useNavigate()
 
@@ -27,6 +29,10 @@ function Navbar() {
     localStorage.removeItem('token')
     setToken(null)
     navigate('/')
+  }
+
+  const handleNavigate = (path) =>{
+    navigate(path)
   }
 
   useEffect(() => {
@@ -83,6 +89,25 @@ function Navbar() {
       </div>
       <div className="navbar-end gap-3">
         {token ? <>
+          <div onClick={()=> handleNavigate('/cart')} className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div className="indicator">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span className="badge badge-sm indicator-item">{cartItems}</span>
+              </div>
+            </div>
+          </div>
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -100,13 +125,13 @@ function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
               <li>
-                <a className="justify-between">
+                <Link to='/' className="justify-between">
                   <span className='flex gap-1'>
                     <UserCircleIcon className='h-[18px] w-[18px] ' />
                     <span>Profile</span>
                   </span>
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
               <li><Link to='/adminPanel' className="justify-between">
                 <span className='flex gap-1'>

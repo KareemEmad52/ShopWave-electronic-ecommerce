@@ -7,6 +7,7 @@ import { Button } from '@material-tailwind/react';
 import { Puff } from 'react-loader-spinner';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
+import { useCart } from '../../context/CartContext';
 
 
 function ProductDetails() {
@@ -14,6 +15,7 @@ function ProductDetails() {
   let { token } = useUser()
   let { id } = useParams()
   let [isLoadingCart,setIsLoadingCart] = useState()
+  const {setCartItems} = useCart()
   const settings = {
     dots: false,
     infinite: true,
@@ -33,6 +35,7 @@ function ProductDetails() {
     setIsLoadingCart(true)
     try {
       let res = await AddToCart(id, token)
+      setCartItems(res?.data?.cart.products.length)
       setIsLoadingCart(false)
       toast.success("Product Add Successfully")
     } catch (error) {

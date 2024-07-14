@@ -1,13 +1,13 @@
-import { Input } from '@material-tailwind/react';
+import { Input, Spinner } from '@material-tailwind/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, Typography } from '@material-tailwind/react';
-import { Puff } from 'react-loader-spinner';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { AddToCart, getAllProduct } from '../../utils/api';
 import _ from 'lodash';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useCart } from '../../context/CartContext';
 
 function Products() {
   const nav = useNavigate();
@@ -17,6 +17,7 @@ function Products() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { token } = useUser();
+  const {setCartItems} = useCart()
 
   const handleGetProductDetails = async (page = 1, keyword = '') => {
     setIsLoading(true);
@@ -38,7 +39,8 @@ function Products() {
   const handleAddProductToCart = async (id) => {
     setLoadingProductId(id);
     try {
-      await AddToCart(id, token);
+      let res = await AddToCart(id, token);
+      setCartItems(res?.data?.cart.products.length)
       setLoadingProductId(null);
       toast.success("Product added successfully");
     } catch (error) {
@@ -106,16 +108,7 @@ function Products() {
 
           {isLoading ? (
             <div className='h-[20vh] w-100 flex justify-center items-center'>
-              <Puff
-                height='60'
-                width='60'
-                radius={1.5}
-                color='#4fa94d'
-                ariaLabel='puff-loading'
-                wrapperStyle={{}}
-                wrapperClass=''
-                visible={true}
-              />
+              <Spinner color="green" className="h-10 w-10" />
             </div>
           ) : (
             <div className='gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 '>

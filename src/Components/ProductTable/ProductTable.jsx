@@ -9,13 +9,13 @@ import {
   Button,
   CardBody,
   CardFooter,
+  Spinner,
 } from "@material-tailwind/react";
 import Table from '../Table/Table';
 import { deleteProduct, getAllProduct } from '../../utils/api';
 import AddProductModal from './AddProductModal';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
-import { Puff } from 'react-loader-spinner';
 import _ from 'lodash';
 
 const productHeaders = ["Title", "Category", 'Brand', "Price", "Stock", "Added"];
@@ -67,7 +67,6 @@ function ProductTable() {
     try {
       const res = await deleteProduct(id, token);
       await HandlegetProductDetails(currentPage, searchQuery);
-      console.log(res);
       toast.update(toastId, {
         render: "Product Deleted successfully!",
         type: "success",
@@ -146,16 +145,7 @@ function ProductTable() {
       <CardBody className="overflow-scroll px-0">
         {isLoading ? (
           <div className="text-center text-blue-gray-500 p-4 flex justify-center items-center">
-            <Puff
-              height="60"
-              width="60"
-              radius={0.8}
-              color="#4fa94d"
-              ariaLabel="puff-loading"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-            />
+            <Spinner color="green" className="h-10 w-10" />
           </div>
         ) : (
           <Table headers={productHeaders} rows={productRows} deleteFn={HandleDeleteProduct} />

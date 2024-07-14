@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { LoginSchema } from '../../utils/ValidationSchema';
 import { useUser } from '../../context/UserContext';
+import { useCart } from '../../context/CartContext';
 
 
 
@@ -21,17 +22,17 @@ export function Login() {
   let [isLoading, setIsLoading] = useState(false)
   const Navigate = useNavigate()
   let {setToken} = useUser()
-
+  const {getCartDetails} = useCart()
 
 
   const handleSubmit = async (values) => {
     setIsLoading(true)
     try {
       const data = await LoginUser(values)
-      console.log(data);
       localStorage.setItem('token',data?.token)
       setToken(data?.token)
       setIsLoading(false)
+      getCartDetails(data?.token)
       Navigate('/')
     } catch (error) {
       setIsLoading(false)

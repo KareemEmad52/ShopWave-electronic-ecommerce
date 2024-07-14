@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
-import { Button, IconButton, Input, Typography } from '@material-tailwind/react';
+import { Button, IconButton, Input, Spinner, Typography } from '@material-tailwind/react';
 import _ from 'lodash';
-import { Puff } from 'react-loader-spinner';
 
 function Brands() {
   const nav = useNavigate();
@@ -81,16 +80,7 @@ function Brands() {
 
         {isLoading ? (
           <div className='h-[20vh] w-100 flex justify-center items-center'>
-            <Puff
-              height='60'
-              width='60'
-              radius={1.5}
-              color='#4fa94d'
-              ariaLabel='puff-loading'
-              wrapperStyle={{}}
-              wrapperClass=''
-              visible={true}
-            />
+            <Spinner color="green" className="h-10 w-10" />
           </div>
         ) : <div className="w-full min-h-[80vh]">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">

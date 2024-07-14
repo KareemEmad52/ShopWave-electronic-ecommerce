@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 // Base URL for your API
-const BASE_URL = 'https://ecom-zgup.onrender.com';
+const BASE_URL = 'http://localhost:3000';
 
 // Function to handle signup
 export const AddNewUser = async (formData) => {
@@ -64,7 +64,7 @@ export const addProduct = async (productData, token) => {
 export const getCategories = async ({ page = 1, keyword = '' }) => {
 
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/categories`,{
+    const response = await axios.get(`${BASE_URL}/api/v1/categories`, {
       params: {
         page: page,
         keyword: keyword,
@@ -82,7 +82,7 @@ export const getCategories = async ({ page = 1, keyword = '' }) => {
 export const getBrands = async ({ page = 1, keyword = '' }) => {
 
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/brands`,{
+    const response = await axios.get(`${BASE_URL}/api/v1/brands`, {
       params: {
         page: page,
         keyword: keyword,
@@ -213,14 +213,60 @@ export const getSingleCategoryByID = async (id) => {
   }
 };
 
-
-
-
+// Get Single Brand By ID
 export const getSingleBrandByID = async (id) => {
   try {
     const response = await axios.get(`${BASE_URL}/api/v1/brands/${id}`);
     return response;
   } catch (error) {
+    throw error;
+  }
+};
+
+
+// Get User's Cart
+export const getUserCart = async (token) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/cart`, {
+      headers: {
+        'token': `${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error('Error getting cart', error);
+    throw error;
+  }
+};
+
+// Delete Product From Cart
+export const deleteProductFromCart = async (productID,token) => {
+  try {
+    console.log(token);
+    const response = await axios.put(`${BASE_URL}/api/v1/cart/remove`, { product_id: productID }, {
+      headers: {
+        'token': `${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error('Error getting cart', error);
+    throw error;
+  }
+};
+
+
+// Make Online Order
+export const onlineOrder = async (data,token) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/api/v1/order/online`, { data }, {
+      headers: {
+        'token': `${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error('Error getting cart', error);
     throw error;
   }
 };

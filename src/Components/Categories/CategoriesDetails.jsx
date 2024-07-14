@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '../../context/UserContext';
 import { getAllProduct, getSingleCategoryByID, AddToCart } from '../../utils/api';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Puff } from 'react-loader-spinner';
-import { Button } from '@material-tailwind/react';
+import { Button, Spinner } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 
 function CategoriesDetails() {
@@ -74,16 +73,7 @@ function CategoriesDetails() {
       <h1 className='font-poppins md:text-xl font-semibold '>Category Name :<span className='text-alternative-400 md:text-lg'> {category?.name}</span></h1>
       {isLoading ? (
         <div className='h-[20vh] w-100 flex justify-center items-center'>
-          <Puff
-            height='60'
-            width='60'
-            radius={1.5}
-            color='#4fa94d'
-            ariaLabel='puff-loading'
-            wrapperStyle={{}}
-            wrapperClass=''
-            visible={true}
-          />
+          <Spinner color="green" className="h-10 w-10" />
         </div>
       ) : (
         <div className='gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 '>

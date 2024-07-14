@@ -40,3 +40,11 @@ export const AddBrandSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   image: Yup.mixed().required('Cover image is required'),
 });
+
+
+//checkout schema 
+export const checkoutValidationSchema = Yup.object().shape({
+  fullName: Yup.string().required('Full Name is required'),
+  address: Yup.string().required('Address is required'),
+  phone: Yup.string().required('Phone number is required'),
+});

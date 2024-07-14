@@ -4,17 +4,19 @@ import { AddToCart, getAllProduct } from '../../utils/api';
 
 import {
   Button,
+  Spinner,
 } from "@material-tailwind/react";
-import { Puff } from 'react-loader-spinner';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
+import { useCart } from '../../context/CartContext';
 
 function FeaturedProducts() {
 
   const nav = useNavigate()
   let [loadingProductId, setLoadingProductId] = useState(null)
   let { token } = useUser()
+  const {setCartItems} = useCart()
 
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['product'],
@@ -28,7 +30,8 @@ function FeaturedProducts() {
   const handleAddProductToCart = async (id) => {
     setLoadingProductId(id);
     try {
-      await AddToCart(id, token);
+      let res = await AddToCart(id, token);
+      setCartItems(res?.data?.cart.products.length)
       setLoadingProductId(null);
       toast.success("Product added successfully");
     } catch (error) {
@@ -54,16 +57,7 @@ function FeaturedProducts() {
       <h2 className='font-poppins  font-semibold mb-1 ps-3 text-[22px] md:text-[27px]'>Featured Products : </h2>
 
       {isLoading ? <div className='h-[20vh] w-100 flex justify-center items-center'>
-        <Puff
-          height="60"
-          width="60"
-          radius={1.5}
-          color="#4fa94d"
-          ariaLabel="puff-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        />
+        <Spinner color="green" className="h-10 w-10" />
       </div> : <div className="gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
         {data?.data?.document.map((product) => (
           <div key={product._id} className=" shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0">
