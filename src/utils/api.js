@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 // Base URL for your API
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://ecom-zgup.onrender.com';
 
 // Function to handle signup
 export const AddNewUser = async (formData) => {
