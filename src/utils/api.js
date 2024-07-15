@@ -250,7 +250,7 @@ export const getUserCart = async (token) => {
 };
 
 // Delete Product From Cart
-export const removeProductFromCart = async (productID,token) => {
+export const removeProductFromCart = async (productID, token) => {
   try {
     const response = await axios.put(`${BASE_URL}/api/v1/cart/remove`, { product_id: productID }, {
       headers: {
@@ -285,7 +285,7 @@ export const deleteProductFromCart = async (productID, token) => {
 
 
 // Make Online Order
-export const onlineOrder = async (data,token) => {
+export const onlineOrder = async (data, token) => {
   try {
     const response = await axios.post(`${BASE_URL}/api/v1/order/online`, { data }, {
       headers: {
@@ -298,3 +298,19 @@ export const onlineOrder = async (data,token) => {
     throw error;
   }
 };
+
+
+// Get All Orders 
+export const getUserOrder = async (token) => {
+  try {
+    let res = await axios.get(`${BASE_URL}/api/v1/order`, {
+      headers: {
+        'token': token
+      }
+    })
+    return res
+  } catch (error) {
+    console.error('Error getting cart', error);
+    throw error;
+  }
+}

@@ -134,7 +134,7 @@ function Cart() {
   return (
     <>
       {isLoading ? (
-        <div className="h-[20vh] w-100 flex justify-center items-center">
+        <div className="h-[40vh] w-100 flex justify-center items-center">
           <Spinner color="green" className="h-10 w-10" />
         </div>
       ) : (

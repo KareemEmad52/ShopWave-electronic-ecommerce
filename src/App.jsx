@@ -22,6 +22,7 @@ import CategoriesDetails from './Components/Categories/CategoriesDetails';
 import BrandsDetails from './Components/Brands/BrandsDetails';
 import Cart from './Components/Cart/Cart';
 import { CartProvider } from './context/CartContext';
+import Order from './Components/Order/Order';
 
 
 const routes = createBrowserRouter([
@@ -37,6 +38,7 @@ const routes = createBrowserRouter([
       { path: 'categories/categoryDetails/:id', element: <ProtectedRoute><CategoriesDetails /></ProtectedRoute> },
       { path: 'brands/brandDetails/:id', element: <ProtectedRoute><BrandsDetails /></ProtectedRoute> },
       { path: 'cart', element: <ProtectedRoute><Cart /></ProtectedRoute> },
+      { path: 'order', element: <ProtectedRoute><Order /></ProtectedRoute> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
           { index: true, element: <ProductTable /> },
