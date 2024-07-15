@@ -11,7 +11,6 @@ export const CartProvider = ({ children }) => {
       setCartItems(0)
       let res = await getUserCart(token);
       setCartItems(res?.data?.cart[0].products.length);
-      console.log(res?.data?.cart[0].products.length);
     } catch (error) {
       console.log(error);
     }

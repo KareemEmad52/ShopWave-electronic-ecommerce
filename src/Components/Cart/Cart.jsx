@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AddToCart, deleteProductFromCart, getUserCart, onlineOrder } from '../../utils/api';
+import { AddToCart, removeProductFromCart, getUserCart, onlineOrder, deleteProductFromCart } from '../../utils/api';
 import { useUser } from '../../context/UserContext';
 import { Button, Input, Spinner } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
@@ -57,7 +57,28 @@ function Cart() {
   const HandleDeleteProductFromCart = async (prodID) => {
     const toastId = toast.loading("Deleting Product...");
     try {
-      console.log(token);
+      let res = await removeProductFromCart(prodID, token);
+      await getCartDetails();
+      toast.update(toastId, {
+        render: "Product Deleted successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.update(toastId, {
+        render: error.response.data.message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      console.log(error);
+    }
+  };
+
+  const HandleRemoveProductFromCart = async (prodID) => {
+    const toastId = toast.loading("Deleting Product...");
+    try {
       let res = await deleteProductFromCart(prodID, token);
       await getCartDetails();
       toast.update(toastId, {
@@ -133,7 +154,7 @@ function Cart() {
                           <h3 className="text-base font-bold text-gray-800">{prod.product_id.title.split(' ').slice(0, 5).join(' ')}</h3>
                           <p className="text-xs font-semibold text-gray-500 mt-0.5">description: {prod.product_id.description.split(' ').slice(0, 5).join(' ')}</p>
                           <button
-                            onClick={() => HandleDeleteProductFromCart(prod.product_id._id)}
+                            onClick={() => HandleRemoveProductFromCart(prod.product_id._id)}
                             type="button"
                             className="mt-3 md:mt-6 font-semibold text-red-500 text-xs flex items-center gap-1 shrink-0"
                           >
@@ -146,7 +167,7 @@ function Cart() {
                         </div>
                       </div>
                       <div className="ml-auto">
-                        <h4 className="text-lg max-sm:text-base font-bold text-gray-800">${prod.product_id.price}.00</h4>
+                        <h4 className="text-lg max-sm:text-base font-bold text-gray-800">${prod.product_id.priceAfterDiscount}.00</h4>
                         <button
                           type="button"
                           className="mt-6 flex items-center px-3 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"

@@ -44,6 +44,16 @@ export const getAllProduct = async ({ page = 1, keyword = '' }) => {
   }
 };
 
+// Get All Product Function Without pagenation
+export const getAllProductWithoutPagenation = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/product/all`);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Add Product 
 export const addProduct = async (productData, token) => {
 
@@ -240,9 +250,8 @@ export const getUserCart = async (token) => {
 };
 
 // Delete Product From Cart
-export const deleteProductFromCart = async (productID,token) => {
+export const removeProductFromCart = async (productID,token) => {
   try {
-    console.log(token);
     const response = await axios.put(`${BASE_URL}/api/v1/cart/remove`, { product_id: productID }, {
       headers: {
         'token': `${token}`
@@ -251,6 +260,25 @@ export const deleteProductFromCart = async (productID,token) => {
     return response;
   } catch (error) {
     console.error('Error getting cart', error);
+    throw error;
+  }
+};
+
+// Delete all the Product  From Cart
+export const deleteProductFromCart = async (productID, token) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/api/v1/cart/remove`,
+      {
+        headers: {
+          'token': `${token}`
+        },
+        data: { product_id: productID } // Send product_id in the data property
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error removing product from cart', error);
     throw error;
   }
 };

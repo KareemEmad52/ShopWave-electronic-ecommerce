@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../context/UserContext';
-import { getAllProduct, getSingleBrandByID, AddToCart } from '../../utils/api';
+import { getAllProduct, getSingleBrandByID, AddToCart, getAllProductWithoutPagenation } from '../../utils/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Spinner } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
@@ -10,8 +10,6 @@ function BrandsDetails() {
   const [loadingProductId, setLoadingProductId] = useState(null);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [Brand, setBrand] = useState();
   const { token } = useUser();
   let { id } = useParams();
@@ -25,10 +23,10 @@ function BrandsDetails() {
     }
   };
 
-  const handleGetProductDetails = async (page = 1, keyword = '') => {
+  const handleGetProductDetails = async () => {
     setIsLoading(true);
     try {
-      const res = await getAllProduct({ page, keyword });
+      const res = await getAllProductWithoutPagenation();
       const filteredProducts = res.data.document.filter(product => product.brand._id === id);
       setProducts(filteredProducts);
       setIsLoading(false);
@@ -62,10 +60,10 @@ function BrandsDetails() {
   useEffect(() => {
     const fetchData = async () => {
       await getBrandDetails(id);
-      await handleGetProductDetails(currentPage, searchQuery);
+      await handleGetProductDetails();
     };
     fetchData();
-  }, [id, currentPage, searchQuery]);
+  }, [id]);
 
   const navigateToProduct = (productId) => {
     nav(`/productDetails/${productId}`);
@@ -73,7 +71,7 @@ function BrandsDetails() {
 
   return (
     <div className='my-5'>
-      <h1 className='font-poppins md:text-xl font-semibold '>Brand Name :<span className='text-alternative-400 md:text-lg'> {Brand?.name}</span></h1>
+      {Brand ?<h1 className='font-poppins md:text-xl font-semibold '>Brand Name :<span className='text-alternative-400 md:text-lg'> {Brand?.name}</span></h1> :" "}
       {isLoading ? (
         <div className='h-[20vh] w-100 flex justify-center items-center'>
           <Spinner color="green" className="h-10 w-10" />
