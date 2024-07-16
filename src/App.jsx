@@ -23,6 +23,7 @@ import BrandsDetails from './Components/Brands/BrandsDetails';
 import Cart from './Components/Cart/Cart';
 import { CartProvider } from './context/CartContext';
 import Order from './Components/Order/Order';
+import Profile from './Components/Profile/Profile';
 
 
 const routes = createBrowserRouter([
@@ -39,6 +40,7 @@ const routes = createBrowserRouter([
       { path: 'brands/brandDetails/:id', element: <ProtectedRoute><BrandsDetails /></ProtectedRoute> },
       { path: 'cart', element: <ProtectedRoute><Cart /></ProtectedRoute> },
       { path: 'order', element: <ProtectedRoute><Order /></ProtectedRoute> },
+      { path: 'profile', element: <ProtectedRoute><Profile /></ProtectedRoute> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
           { index: true, element: <ProductTable /> },

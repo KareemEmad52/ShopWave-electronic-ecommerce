@@ -115,7 +115,7 @@ function Navbar() {
                   alt="Tailwind CSS Navbar component"
                   src={userInfo?.profilePicture?.path} /> : <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />}
+                  src="https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg" />}
                 <img
                   alt="Tailwind CSS Navbar component"
                   src={userInfo?.profilePicture?.path} />
@@ -125,7 +125,7 @@ function Navbar() {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
               <li>
-                <Link to='/' className="justify-between">
+                <Link to='/profile' className="justify-between">
                   <span className='flex gap-1'>
                     <UserCircleIcon className='h-[18px] w-[18px] ' />
                     <span>Profile</span>

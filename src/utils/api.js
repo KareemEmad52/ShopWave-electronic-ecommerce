@@ -314,3 +314,7 @@ export const getUserOrder = async (token) => {
     throw error;
   }
 }
+
+export const getUserData = async () =>{
+  
+}
