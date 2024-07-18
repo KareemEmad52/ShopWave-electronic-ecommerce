@@ -24,6 +24,8 @@ import Cart from './Components/Cart/Cart';
 import { CartProvider } from './context/CartContext';
 import Order from './Components/Order/Order';
 import Profile from './Components/Profile/Profile';
+import Wishlist from './Components/Wishlist/Wishlist';
+
 
 
 const routes = createBrowserRouter([
@@ -41,6 +43,7 @@ const routes = createBrowserRouter([
       { path: 'cart', element: <ProtectedRoute><Cart /></ProtectedRoute> },
       { path: 'order', element: <ProtectedRoute><Order /></ProtectedRoute> },
       { path: 'profile', element: <ProtectedRoute><Profile /></ProtectedRoute> },
+      { path: 'wishlist', element: <ProtectedRoute><Wishlist /></ProtectedRoute> },
       {
         path: 'adminPanel', element: <AdminPanel />, children: [
           { index: true, element: <ProductTable /> },

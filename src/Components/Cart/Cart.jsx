@@ -4,7 +4,6 @@ import { useUser } from '../../context/UserContext';
 import { Button, Input, Spinner } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import { checkoutValidationSchema } from '../../utils/ValidationSchema';
 
 function Cart() {

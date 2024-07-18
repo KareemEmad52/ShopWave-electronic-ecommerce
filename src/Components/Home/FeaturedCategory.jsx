@@ -5,8 +5,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getCategories } from '../../utils/api'; // Assuming this function fetches categories
 import { Spinner } from '@material-tailwind/react';
+import { useNavigate } from 'react-router-dom';
 
 const Categories = () => {
+
+  const navigate = useNavigate()
+
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['categories'],
     queryFn: getCategories,
@@ -15,6 +19,10 @@ const Categories = () => {
   if (isError) {
     toast.error("An error occur please refresh the page !")
     return <div>Error: {error.message}</div>;
+  }
+
+  const handleNavigate = (path) =>{
+    navigate(`/categories/categoryDetails/${path}`)
   }
 
   const settings = {
@@ -69,7 +77,7 @@ const Categories = () => {
         <Slider {...settings} className="h-full">
           {data?.document?.map((category) => (
             <div key={category._id} className=" rounded overflow-hidden p-2 md:p-3">
-              <div className='p-2 cursor-pointer  border border-transparent hover:border-1 hover:border-main-500 transtionAll rounded-lg'>
+              <div onClick={()=> handleNavigate(category._id)} className='p-2 cursor-pointer  border border-transparent hover:border-1 hover:border-main-500 transtionAll rounded-lg'>
                 <img className="w-full h-full object-cover" src={category.image.path} alt={category.name} />
                 <div className="pt-4">
                   <div className="font-bold text-[12px] sm:text-[10px] md:text-sm mb-2">{category.name}</div>

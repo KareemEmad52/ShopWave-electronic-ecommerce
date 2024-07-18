@@ -306,7 +306,7 @@ export const getUserOrder = async (token) => {
     let res = await axios.get(`${BASE_URL}/api/v1/order`, {
       headers: {
         'token': token
-      }
+      },
     })
     return res
   } catch (error) {
@@ -315,6 +315,38 @@ export const getUserOrder = async (token) => {
   }
 }
 
-export const getUserData = async () =>{
-  
+
+// Get User wishlist 
+export const getUserWishlist = async (token) =>{
+  try {
+    let res = await axios.get(`${BASE_URL}/api/v1/user/wishlist`, {
+      headers: {
+        'token': token
+      }
+    })
+    return res
+  } catch (error) {
+    console.error('Error getting wishlist', error);
+    throw error;
+  }
 }
+
+
+// Update The WishList 
+export const updateUserWishlist = async ({ token, productID }) => {
+  try {
+    let res = await axios.put(
+      `${BASE_URL}/api/v1/user/wishlist`,
+      { product_id: productID },
+      {
+        headers: {
+          'token': token
+        }
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error('Error updating wishlist', error);
+    throw error;
+  }
+};

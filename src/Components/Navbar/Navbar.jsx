@@ -72,7 +72,7 @@ function Navbar() {
             <li>
               <Link to='/brands'>Brands</Link>
             </li>
-            <li><a>Wichlist</a></li>
+            <li><Link to='/wishlist'>Wishlist</Link></li>
           </ul>
         </div>
         <Link to='/' className="btn btn-ghost text-xl font-poppins font-semibold text-main-500">ShopWave</Link>
@@ -84,7 +84,7 @@ function Navbar() {
           <li>
             <Link to='/brands'>Brands</Link>
           </li>
-          <li><a>Wichlist</a></li>
+          <li><Link to='/wishlist'>Wishlist</Link></li>
         </ul>
       </div>
       <div className="navbar-end gap-3">
