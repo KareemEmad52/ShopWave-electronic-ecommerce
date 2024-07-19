@@ -4,10 +4,14 @@ import { Button, IconButton, Typography } from '@material-tailwind/react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
-import { AddToCart, getAllProduct } from '../../utils/api';
+import { AddToCart, getAllProduct, getUserWishlist } from '../../utils/api';
 import _ from 'lodash';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../../context/CartContext';
+import heartIcon from '../../assets/heart.svg'
+import { useAddToWishlist } from '../../Hooks/useAddToWishlist';
+
+
 
 function Products() {
   const nav = useNavigate();
@@ -17,7 +21,9 @@ function Products() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { token } = useUser();
-  const {setCartItems} = useCart()
+  const { setCartItems } = useCart()
+  const [wishlist, setWishlist] = useState([]);
+  const { mutate } = useAddToWishlist()
 
   const handleGetProductDetails = async (page = 1, keyword = '') => {
     setIsLoading(true);
@@ -76,9 +82,40 @@ function Products() {
     setCurrentPage(currentPage - 1);
   };
 
+
+  const handleAddproductToWishlist = async (id) => {
+    const toastId = toast.loading("Adding item...");
+    if (token) {
+      mutate({ productID: id, token }, {
+        onSuccess: () => {
+          toast.update(toastId, {
+            render: "Added to wishlist successfully",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          })
+          setWishlist([...wishlist, id]);
+        },
+        onError: () => {
+          toast.update(toastId, {
+            render: "Error while Deleting item!",
+            type: "error",
+            isLoading: false,
+            autoClose: 2000,
+          })
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     handleGetProductDetails(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+    if (token) {
+      getUserWishlist(token).then((res) => {
+        setWishlist(res.data.wishlist.map((item) => item._id));
+      });
+    }
+  }, [currentPage, searchQuery, token]);
 
   return (
     <>
@@ -115,8 +152,14 @@ function Products() {
               {products.document.map((product) => (
                 <div
                   key={product._id}
-                  className=' shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0'
+                  className='relative shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0'
                 >
+                  <div className="absolute top-3 right-4 z-10">
+                    <button disabled={wishlist.includes(product._id) ? true : false} onClick={() => handleAddproductToWishlist(product._id)} className='flex justify-center items-center shadow-md border border-spacing-2 border-gray-200 p-2 rounded-md'>
+                      <img src={wishlist.includes(product._id) ? heartIcon
+                        : "https://f.nooncdn.com/s/app/com/noon/icons/wishlist.svg"} alt="" />
+                    </button>
+                  </div>
                   <figure
                     className='relative cursor-pointer'
                     onClick={() => navigateToProduct(product._id)}

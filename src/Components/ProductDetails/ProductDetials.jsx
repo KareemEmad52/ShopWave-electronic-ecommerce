@@ -3,8 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { AddToCart, getSingleProductByID } from '../../utils/api';
 import Slider from "react-slick";
-import { Button } from '@material-tailwind/react';
-import { Puff } from 'react-loader-spinner';
+import { Button, Spinner } from '@material-tailwind/react';
 import { useUser } from '../../context/UserContext';
 import { toast } from 'react-toastify';
 import { useCart } from '../../context/CartContext';
@@ -48,19 +47,12 @@ function ProductDetails() {
     }
   }
 
+  
+
 
   return (<>
     {isLoading ? <div className='h-[40vh] w-100 flex justify-center items-center'>
-      <Puff
-        height="60"
-        width="60"
-        radius={1.5}
-        color="#4fa94d"
-        ariaLabel="puff-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
-      />
+      <Spinner color="green" className="h-10 w-10" />
     </div> : <div>
       <div className="grid grid-cols-1 md:grid-cols-7 gap-0 md:gap-0 mt-10 mb-5 lg:mb-12 ">
         <div className="col-span-1 md:col-span-2 p-8 sm:py-1 sm:px-2 ">

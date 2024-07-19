@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AddToCart, getAllProduct } from '../../utils/api';
+import { AddToCart, getAllProduct, getUserWishlist } from '../../utils/api';
 
 import {
   Button,
@@ -10,13 +10,19 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import { useCart } from '../../context/CartContext';
+import { useAddToWishlist } from '../../Hooks/useAddToWishlist';
+import heartIcon from '../../assets/heart.svg'
+
+
 
 function FeaturedProducts() {
 
   const nav = useNavigate()
   let [loadingProductId, setLoadingProductId] = useState(null)
+  const [wishlist, setWishlist] = useState([]);
   let { token } = useUser()
-  const {setCartItems} = useCart()
+  const { setCartItems } = useCart()
+  const { mutate } = useAddToWishlist()
 
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['product'],
@@ -35,7 +41,7 @@ function FeaturedProducts() {
       setLoadingProductId(null);
       toast.success("Product added successfully");
     } catch (error) {
-      if(error.response.data.message === "Forbidden"){
+      if (error.response.data.message === "Forbidden") {
         toast.error("Please Login First !")
       } else {
         toast.error("An error occurred while adding the product to the cart");
@@ -45,11 +51,38 @@ function FeaturedProducts() {
   }
 
 
-  if (isError) {
-    console.log(error);
-    toast.error("An error occur please refresh the page !")
-    return <div>Error: {error.message}</div>;
+  const handleAddproductToWishlist = async (id) => {
+    const toastId = toast.loading("Adding item...");
+    if (token) {
+      mutate({ productID: id, token }, {
+        onSuccess: () => {
+          toast.update(toastId, {
+            render: "Added to wishlist successfully",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          })
+          setWishlist([...wishlist, id]);
+        },
+        onError: () => {
+          toast.update(toastId, {
+            render: "Error while Deleting item!",
+            type: "error",
+            isLoading: false,
+            autoClose: 2000,
+          })
+        }
+      })
+    }
   }
+
+  useEffect(() => {
+    if (token) {
+      getUserWishlist(token).then((res) => {
+        setWishlist(res.data.wishlist.map((item) => item._id));
+      });
+    }
+  }, [token]);
 
   return (
     <div className="container mx-auto font-poppins">
@@ -60,7 +93,13 @@ function FeaturedProducts() {
         <Spinner color="green" className="h-10 w-10" />
       </div> : <div className="gap-3 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
         {data?.data?.document.map((product) => (
-          <div key={product._id} className=" shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0">
+          <div key={product._id} className="relative shadow-lg rounded-lg overflow-hidden mt-3 sm:mt-0 border-t border-spacing-4 border-gray-200 ">
+            <div className="absolute top-3 right-4 z-10">
+              <button disabled={wishlist.includes(product._id) ? true : false} onClick={() => handleAddproductToWishlist(product._id)} className='flex justify-center items-center shadow-md border border-spacing-2 border-gray-200 p-2 rounded-md'>
+                <img src={wishlist.includes(product._id) ? heartIcon
+                  : "https://f.nooncdn.com/s/app/com/noon/icons/wishlist.svg"} alt="" />
+              </button>
+            </div>
             <figure className="relative cursor-pointer" onClick={() => navigateToProduct(product._id)}>
               <div className='overflow-hidden'>
                 <img
@@ -79,25 +118,25 @@ function FeaturedProducts() {
                 <span className='text-[#263238] text-xs opacity-75'>{product.description.split(" ").slice(0, 20).join(' ')}</span>
               </div>
               <div className="flex items-center justify-between mt-4">
-              {loadingProductId === product._id ? (
-                    <Button
-                      loading={true}
-                      ripple={false}
-                      fullWidth={true}
-                      className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100 flex justify-center items-center"
-                    >
-                      Loading
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => handleAddProductToCart(product._id)}
-                      ripple={false}
-                      fullWidth={true}
-                      className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                    >
-                      Add to Cart
-                    </Button>
-                  )}
+                {loadingProductId === product._id ? (
+                  <Button
+                    loading={true}
+                    ripple={false}
+                    fullWidth={true}
+                    className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100 flex justify-center items-center"
+                  >
+                    Loading
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleAddProductToCart(product._id)}
+                    ripple={false}
+                    fullWidth={true}
+                    className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                  >
+                    Add to Cart
+                  </Button>
+                )}
               </div>
             </div>
           </div>
