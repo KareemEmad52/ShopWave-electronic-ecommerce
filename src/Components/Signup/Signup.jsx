@@ -39,7 +39,6 @@ export function Signup() {
 
     try {
       const data = await AddNewUser(formData);
-      console.log(data);
       setIsLoading(false)
       Navigate('/login')
     } catch (error) {

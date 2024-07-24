@@ -111,7 +111,6 @@ function Cart() {
 
   const handleSubmit = async (values) => {
     setPaymentLoading(true)
-    console.log('Form values:', values);
     try {
       let res = await onlineOrder({
         address: values.address,
@@ -119,16 +118,13 @@ function Cart() {
       }, token);
       setPaymentLoading(false)
       window.location.href = res?.data?.session?.url
-      console.log(res);
     } catch (error) {
       setPaymentLoading(false)
       console.log(error);
     }
   };
 
-  const testSubmit = () => {
-    console.log('Test button clicked');
-  };
+
 
   return (
     <>
