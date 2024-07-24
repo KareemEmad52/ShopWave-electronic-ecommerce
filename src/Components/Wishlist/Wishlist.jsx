@@ -55,7 +55,6 @@ function Wishlist() {
   const { mutate: addToCartMutation  } = useMutation({
     mutationFn: ({ token, productID }) => AddToCart(productID, token),
     onSuccess: (data) => {
-      console.log(data);
       setCartItems(data?.data?.cart.products.length)
       setLoadingProductId(null); // Reset the loading state
     },

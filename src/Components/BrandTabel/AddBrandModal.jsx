@@ -1,9 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Select, Option, Textarea } from "@material-tailwind/react";
 import { addBrand, getBrands } from '../../utils/api';
 import { useUser } from '../../context/UserContext';
-import * as Yup from 'yup';
 import { AddBrandSchema } from '../../utils/ValidationSchema';
 
 

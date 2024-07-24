@@ -4,6 +4,23 @@ import axios from "axios";
 // Base URL for your API
 const BASE_URL = 'https://ecom-zgup.onrender.com';
 
+
+
+// Get User Function
+export const getUserDetails = async (token) => {
+  try {
+    let res = await axios.get(`${BASE_URL}/api/v1/user`, {
+      headers: {
+        'token': `${token}`
+      }
+    })
+    return res.data
+  } catch (error) {
+    console.log(error);
+    throw error
+  }
+}
+
 // Function to handle signup
 export const AddNewUser = async (formData) => {
   try {
@@ -317,7 +334,7 @@ export const getUserOrder = async (token) => {
 
 
 // Get User wishlist 
-export const getUserWishlist = async (token) =>{
+export const getUserWishlist = async (token) => {
   try {
     let res = await axios.get(`${BASE_URL}/api/v1/user/wishlist`, {
       headers: {
@@ -350,3 +367,16 @@ export const updateUserWishlist = async ({ token, productID }) => {
     throw error;
   }
 };
+
+
+
+//update user
+export const updateUser = async ({ id, formData }) => {
+  try {
+    let res = axios.put(`${BASE_URL}/api/v1/user/${id}`, formData)
+    return res
+  } catch (error) {
+    console.error('Error updating user', error);
+    throw error;
+  }
+}

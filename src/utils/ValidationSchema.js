@@ -48,3 +48,11 @@ export const checkoutValidationSchema = Yup.object().shape({
   address: Yup.string().required('Address is required'),
   phone: Yup.string().required('Phone number is required'),
 });
+
+// update User Schema
+export const updateUserSchema = Yup.object().shape({
+  name: Yup.string().optional(),
+  email: Yup.string().email("Not valid email format").optional(),
+  password: Yup.string().optional(),
+  image: Yup.mixed().optional(),
+});
